@@ -1,0 +1,25 @@
+body, html, div, img, ul, h1, h2, h3, h4, a, hr, label, span {
+  border: medium none;
+  line-height: 1.1em;
+  margin: 0;
+  outline: medium none;
+  padding: 0;
+  word-spacing: 0; }
+
+svg {
+  display: none;
+  position: relative;
+  top: 9px;
+  margin: 0 0 7px 0; }
+a {
+  text-decoration: none; }
+
+.clear {
+  clear: both;
+  padding: 0;
+  margin: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden; }
+
+/*# sourceMappingURL=reset.css.map */
