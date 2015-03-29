@@ -5,5 +5,4 @@ app.Page.index = Backbone.View.extend({
 	initialize: function() {
 		$('#jscheck').html('Javascript is running fine <i class="fa fa-check"></i>');
 	}
-
 });

@@ -1,19 +1,24 @@
 extends ../layout
+mixin arrow(name)
+	div&attributes(attributes)
+		span
+		em=name
 
 block content
-	div.container
-		div.checklist
-			h1 Application check
-			ul
-				li
-					-if (page)
-						="You are on the " + page + " page"
-						i.fa.fa-check
-					-else
-						="Page has no title! Check the params given /views/index/index.js"
-						i.fa.fa-close
-				li#jscheck Javascript is not working! Check network tab on the console
-					i.fa.fa-close
-				li Font awesome status:
-					i.fa.fa-dot-circle-o
-
+	.container
+		.touch_wrapper
+			h1 Touch the screen
+			.circle_thin.circle
+				.circle_full.circle
+		.purchase_process
+			header
+				.process_arrow_wrapper
+					+arrow("Select").arrow_box.active
+					+arrow("Summary").arrow_box
+					+arrow("Pay").arrow_box
+			.content
+				.select_page
+				.summary_page
+				.paying_page
+			.sumnmary_costs
+			footer
