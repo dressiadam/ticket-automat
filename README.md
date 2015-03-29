@@ -1,6 +1,6 @@
-<h1>Node Starter Kit</h1>
+<h1>Ticket handling app</h1>
 
-Lightweight node js app
+Lightweight node js app, ticket automat exercise
 
 <h2>Installation</h2>
 
@@ -14,11 +14,12 @@ then just
 <pre>$ grunt</pre>
 </div>
 
-<h2>Used Components</h2>
+<h2>Used Components, dependencies</h2>
 
 <ul>
 <li>Express</li>
 <li>Grunt</li>
 <li>Backbone</li>
 <li>SCSS</li>
+<li>Ruby</li>
 </ul>
