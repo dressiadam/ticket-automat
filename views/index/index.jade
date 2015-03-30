@@ -4,6 +4,15 @@ mixin arrow(name)
 		span
 		em=name
 
+mixin ticket(validity, type, price, currency)
+	article&attributes(attributes)
+		.ticket_sign
+			.circle_full.circle
+		.ticket_text
+			h4.ticket_validity=validity
+			h4.ticket_type=type
+			h5.ticket_price=price+currency
+
 block content
 	.container
 		.touch_wrapper
@@ -18,6 +27,11 @@ block content
 					+arrow("Pay").arrow_box
 			.content
 				.select_page
+					h2 Please select travelcard
+					+ticket('24-hour', 'Budapest-travelcard', '1650', ' HUF').ticket_box(data-ticket-type="24h_bp")
+					+ticket('5/30 BKK 24-hour', 'travelcard', '4550', ' HUF').ticket_box(data-ticket-type="5_30_bp")
+					+ticket('24-hour group', 'Budapest-travelcard', '3300', ' HUF').ticket_box(data-ticket-type="24h_bp_group")
+					+ticket('Seven-day', 'Budapest-travelcard', '4950', ' HUF').ticket_box(data-ticket-type="7day")
 				.summary_page
 				.paying_page
 			.sumnmary_costs
