@@ -151,6 +151,11 @@ body {
 					display: inline-block;
 					background: #282F75;
 					margin: 1vw 0 0 3vw;
+					&.selected {
+						-moz-box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 10px hsl(0, 0%, 90%);
+						-webkit-box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 10px hsl(0, 0%, 90%);
+						box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 10px hsl(0, 0%, 90%);
+					}
 					.ticket_sign {
 						.circle {
 							border-radius: 50%;
@@ -197,7 +202,6 @@ body {
 							background: #C6710D;
 							.circle {
 								color: #C6710D;
-								//								background: url(../images/travelers.png) 0px 0px no-repeat;
 							}
 						}
 					}
@@ -231,6 +235,10 @@ body {
 						overflow-y: scroll;
 					}
 					.one_ticket_type_row {
+						display: none;
+						&.active {
+							display: block;
+						}
 						position: relative;
 						width: 90vw;
 						height: 11vw;
@@ -306,21 +314,21 @@ body {
 						margin: 9vw 0 2vw 0;
 					}
 				}
-				.total_price_wrapper {
-					display: none;
-					position: relative;
-					right: 3.5vw;
-					top: 0;
-					&.active {
-						display: block;
-					}
-					h3 {
-						text-align: end;
-						font-size: 2vw;
-					}
-					&.summary_page {
-						font-size: 4vw;
-					}
+			}
+			.total_price_wrapper {
+				display: none;
+				position: fixed;
+				right: 4.5vw;
+				bottom: 6vw;
+				&.active {
+					display: block;
+				}
+				h3 {
+					text-align: end;
+					font-size: 2vw;
+				}
+				&.summary_page {
+					font-size: 4vw;
 				}
 			}
 			footer {

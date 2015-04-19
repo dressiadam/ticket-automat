@@ -5,7 +5,7 @@ mixin arrow(name)
 		em=name
 
 mixin ticket(validity, type, price, currency, dataTicketType, ticketText)
-	article&attributes(attributes).ticket_box(data-ticket-type=dataTicketType)
+	article&attributes(attributes).ticket_box(data-ticket-type=dataTicketType, data-ticket-price=price)
 		.ticket_sign
 			.circle_full.circle=ticketText
 		.ticket_text
@@ -14,13 +14,13 @@ mixin ticket(validity, type, price, currency, dataTicketType, ticketText)
 			h5.ticket_price=price+currency
 
 mixin ticket_selection(validity, type, price, currency, dataTicketType, ticketText)
-	.one_ticket_type_row
+	.one_ticket_type_row(data-ticket-type=dataTicketType)
 		+ticket(validity, type, price, currency, dataTicketType, ticketText)
 		.ticket_counter
-			.add_ticket.counter_buttons
+			.remove_ticket.counter_buttons
 				i.fa.fa-minus
 			.counter_display 1
-			.remove_ticket.counter_buttons
+			.add_ticket.counter_buttons
 				i.fa.fa-plus
 		.ticket_type_total_price
 			h4 Price of these tickets
@@ -38,27 +38,29 @@ block content
 					+arrow("Summary").arrow_box
 					+arrow("Pay").arrow_box
 			.content
-				.select_page.active
+				.select_page.process_page.is_first_process_page.active
 					h2 Please select travelcard
 					+ticket('24-hour', 'Budapest-travelcard', '1650', ' HUF', "24h_bp",'24h')
 					+ticket('5/30 BKK 24-hour', 'travelcard', '4550', ' HUF', "5_30_bp", '5/30')
 					+ticket('24-hour group', 'Budapest-travelcard', '3300', ' HUF', "24h_bp_group")
 					+ticket('Seven-day', 'Budapest-travelcard', '4950', ' HUF', "7day", '7')
-				.summary_page
+				.summary_page.process_page
 					+ticket_selection('24-hour', 'Budapest-travelcard', '1650', ' HUF', "24h_bp",'24h')
+					+ticket_selection('5/30 BKK 24-hour', 'travelcard', '4550', ' HUF', "5_30_bp", '5/30')
 					+ticket_selection('24-hour group', 'Budapest-travelcard', '3300', ' HUF', "24h_bp_group")
-				.paying_page
+					+ticket_selection('Seven-day', 'Budapest-travelcard', '4950', ' HUF', "7day", '7')
+				.paying_page.process_page.is_last_process_page
 					h2 End Price
 					.paying_button
 						i.fa.fa-credit-card
 						span PAY
-				.total_price_wrapper
-					h3 Total Price
+			.total_price_wrapper.active
+				h3 Total Price
 			footer
 				.footer_wrapper
 					.back_button.navigation_button
 						i.fa.fa-arrow-circle-left
 						span Back
-					.next_button.navigation_button.active
+					.next_button.navigation_button
 						span Next
 						i.fa.fa-arrow-circle-right
