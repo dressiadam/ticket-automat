@@ -4,18 +4,30 @@ mixin arrow(name)
 		span
 		em=name
 
-mixin ticket(validity, type, price, currency)
-	article&attributes(attributes)
+mixin ticket(validity, type, price, currency, dataTicketType, ticketText)
+	article&attributes(attributes).ticket_box(data-ticket-type=dataTicketType)
 		.ticket_sign
-			.circle_full.circle
+			.circle_full.circle=ticketText
 		.ticket_text
 			h4.ticket_validity=validity
 			h4.ticket_type=type
 			h5.ticket_price=price+currency
 
+mixin ticket_selection(validity, type, price, currency, dataTicketType, ticketText)
+	.one_ticket_type_row
+		+ticket(validity, type, price, currency, dataTicketType, ticketText)
+		.ticket_counter
+			.add_ticket.counter_buttons
+				i.fa.fa-minus
+			.counter_display 1
+			.remove_ticket.counter_buttons
+				i.fa.fa-plus
+		.ticket_type_total_price
+			h4 Price of these tickets
+
 block content
 	.container
-		.touch_wrapper
+		.touch_wrapper.active
 			h1 Touch the screen
 			.circle_thin.circle
 				.circle_full.circle
@@ -26,13 +38,27 @@ block content
 					+arrow("Summary").arrow_box
 					+arrow("Pay").arrow_box
 			.content
-				.select_page
+				.select_page.active
 					h2 Please select travelcard
-					+ticket('24-hour', 'Budapest-travelcard', '1650', ' HUF').ticket_box(data-ticket-type="24h_bp")
-					+ticket('5/30 BKK 24-hour', 'travelcard', '4550', ' HUF').ticket_box(data-ticket-type="5_30_bp")
-					+ticket('24-hour group', 'Budapest-travelcard', '3300', ' HUF').ticket_box(data-ticket-type="24h_bp_group")
-					+ticket('Seven-day', 'Budapest-travelcard', '4950', ' HUF').ticket_box(data-ticket-type="7day")
+					+ticket('24-hour', 'Budapest-travelcard', '1650', ' HUF', "24h_bp",'24h')
+					+ticket('5/30 BKK 24-hour', 'travelcard', '4550', ' HUF', "5_30_bp", '5/30')
+					+ticket('24-hour group', 'Budapest-travelcard', '3300', ' HUF', "24h_bp_group")
+					+ticket('Seven-day', 'Budapest-travelcard', '4950', ' HUF', "7day", '7')
 				.summary_page
+					+ticket_selection('24-hour', 'Budapest-travelcard', '1650', ' HUF', "24h_bp",'24h')
+					+ticket_selection('24-hour group', 'Budapest-travelcard', '3300', ' HUF', "24h_bp_group")
 				.paying_page
-			.sumnmary_costs
+					h2 End Price
+					.paying_button
+						i.fa.fa-credit-card
+						span PAY
+				.total_price_wrapper
+					h3 Total Price
 			footer
+				.footer_wrapper
+					.back_button.navigation_button
+						i.fa.fa-arrow-circle-left
+						span Back
+					.next_button.navigation_button.active
+						span Next
+						i.fa.fa-arrow-circle-right

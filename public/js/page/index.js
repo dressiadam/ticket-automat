@@ -3,6 +3,9 @@ app.Page.index = Backbone.View.extend({
 	el: 'body',
 
 	initialize: function() {
-		$('#jscheck').html('Javascript is running fine <i class="fa fa-check"></i>');
+		console.info('sdfsdf');
+		var pager = new app.View.Pager({
+			el: $('body')
+		});
 	}
 });
