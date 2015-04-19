@@ -17,9 +17,9 @@ then just
 <h2>Used Components, dependencies</h2>
 
 <ul>
-<li>Express</li>
+<li>Jade</li>
 <li>Grunt</li>
 <li>Backbone</li>
 <li>SCSS</li>
-<li>Ruby</li>
+<li>Awsome fonts</li>
 </ul>
