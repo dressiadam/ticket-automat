@@ -17,28 +17,29 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 	 *
 	 */
 	addTicketToCart: function(ticketType) {
-		var ticketCount = this.defaults.shoppingCart[ticketType],
+		var ticketCount = this.attributes.shoppingCart[ticketType],
 		newCount = ticketCount ? parseInt(ticketCount) + 1 : 1;
-		this.defaults.shoppingCart[ticketType] = newCount;
+		this.attributes.shoppingCart[ticketType] = newCount;
 	},
 
 	/**
 	 *
 	 */
 	removeTicketToCart: function(ticketType) {
-		var ticketCount = this.defaults.shoppingCart[ticketType],
+		var ticketCount = this.attributes.shoppingCart[ticketType],
 		newCount = ticketCount ? parseInt(ticketCount) - 1 : 0;
-		newCount !==0 ?
-			this.defaults.shoppingCart[ticketType] = newCount :
-			delete this.defaults.shoppingCart[ticketType];
+		newCount !== 0 ?
+			this.attributes.shoppingCart[ticketType] = newCount :
+			delete this.attributes.shoppingCart[ticketType];
 	},
+
 	/**
 	 *
 	 */
 	getTotalPrice: function() {
 		var _currentTotalPrice = 0;
-		_.map(this.defaults.shoppingCart, function(num, key){
-			_currentTotalPrice = _currentTotalPrice + (num * parseInt(this.defaults.ticketTypes[key]));
+		_.map(this.attributes.shoppingCart, function(num, key){
+			_currentTotalPrice = _currentTotalPrice + (num * parseInt(this.attributes.ticketTypes[key]));
 		},this);
 		return _currentTotalPrice;
 	},
@@ -47,6 +48,10 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 	 *
 	 */
 	getSelectedTickets: function() {
-		return _.keys(this.defaults.shoppingCart);
+		return _.keys(this.attributes.shoppingCart);
+	},
+
+	resetShoppingCart : function() {
+		this.attributes.shoppingCart = {};
 	}
 });

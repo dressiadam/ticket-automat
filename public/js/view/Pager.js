@@ -93,12 +93,14 @@ app.View.Pager = Backbone.View.extend({
 
 			this._arrowBoxes.removeClass(this.activeClass);
 			prevActiveArrowBox.addClass(this.activeClass);
+			app.events.trigger('PREV-PROCESS-PAGE-LOADED', prevActivePage);
 		}
 		if(activePage.hasClass(this.isLastProcessPage)) {
 			this._enabledNextButton();
 		}
 		if(prevActivePage.hasClass(this.isFirstProcessPage)) {
 			this._disabledBackButton();
+			this._disabledNextButton();
 			this._totalPriceWrapper.removeClass('bigger_font_size');
 		}
 	},
