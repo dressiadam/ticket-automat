@@ -7,7 +7,7 @@ app.View.TicketHandler = Backbone.View.extend({
 	initialize: function() {
 		this._touchWrapper = $('.ticket_box');
 		this._totalPriceText = $('.total_price_wrapper h3');
-		this._oneTicketRow = $( ".one_ticket_type_row");
+		this._oneTicketRow = $( '.one_ticket_type_row');
 
 		app.events.on('NEXT-PROCESS-PAGE-LOADED', this.onNextProcessPageLoaded, this);
 	},
@@ -24,28 +24,6 @@ app.View.TicketHandler = Backbone.View.extend({
 	onTicketClick : function(ev) {
 		ev.preventDefault();
 		this.checkTicketStatus(ev);
-	},
-
-	/**
-	 * Handles click event
-	 */
-	onAddTicketClick : function(ev) {
-		ev.preventDefault();
-		console.info(ev.target);
-		var ticketType = $('.add_ticket').parents('.one_ticket_type_row');
-		// TODO itt folyt. kov
-		this.addTicketToCart(ticketType);
-	},
-
-	/**
-	 * Handles click event
-	 */
-	onRemoveTicketClick : function(ev) {
-		ev.preventDefault();
-		console.info(ev);
-		var ticketType = $('.add_ticket').parents('.one_ticket_type_row');
-		// TODO itt folyt. kov
-		this.removeTicketToCart(ticketType);
 	},
 
 	/**
@@ -75,13 +53,14 @@ app.View.TicketHandler = Backbone.View.extend({
 	 *
 	 */
 	checkTicketStatus: function (ev) {
-		var currentTarget = $(ev.currentTarget);
+		var currentTarget = $(ev.currentTarget),
+			ticketType = currentTarget.attr('data-ticket-type');
 		if(!currentTarget.hasClass('selected')) {
-			this.addTicketToCart(currentTarget);
+			this.addTicketToCart(ticketType);
 			currentTarget.addClass('selected');
 		}
 		else {
-			this.removeTicketToCart(currentTarget);
+			this.removeTicketToCart(ticketType);
 			currentTarget.removeClass('selected');
 		}
 	},
@@ -89,28 +68,8 @@ app.View.TicketHandler = Backbone.View.extend({
 	/**
 	 *
 	 */
-	addTicketToCart: function(currentTarget) {
-		var ticketType = currentTarget.attr('data-ticket-type');
-		this.model.addTicketToCart(ticketType);
-		this._refreshTotalPrice();
-		app.events.trigger('SHOPPING-CART-IS-NOT-EMPTY');
-	},
-
-	/**
-	 *
-	 */
-	removeTicketToCart: function(currentTarget) {
-		var ticketType = currentTarget.attr('data-ticket-type');
-		this.model.removeTicketToCart(ticketType);
-		this._refreshTotalPrice();
-		this._checkCartIsEmpty();
-	},
-
-	/**
-	 *
-	 */
 	_refreshTotalPrice: function() {
-		this._totalPriceText.html(this.model.getTotalPrice() + 'HUF');
+		this._totalPriceText.html(this.model.getTotalPrice() + ' ' +'HUF');
 	},
 
 	/**
@@ -120,5 +79,40 @@ app.View.TicketHandler = Backbone.View.extend({
 		if(this.model.getTotalPrice() === 0) {
 			app.events.trigger('SHOPPING-CART-IS-EMPTY');
 		}
+	},
+	/**
+	 *
+	 */
+	addTicketToCart: function(ticketType) {
+		this.model.addTicketToCart(ticketType);
+		this._refreshTotalPrice();
+		app.events.trigger('SHOPPING-CART-IS-NOT-EMPTY');
+	},
+
+	/**
+	 *
+	 */
+	removeTicketToCart: function(ticketType) {
+		this.model.removeTicketToCart(ticketType);
+		this._refreshTotalPrice();
+		this._checkCartIsEmpty();
+	},
+	/**
+	 * Handles click event
+	 */
+	onAddTicketClick : function(ev) {
+		ev.preventDefault();
+		var ticketType = $(ev.currentTarget).parents('.one_ticket_type_row')[0].getAttribute('data-ticket-type');
+
+		this.addTicketToCart(ticketType);
+	},
+
+	/**
+	 * Handles click event
+	 */
+	onRemoveTicketClick : function(ev) {
+		ev.preventDefault();
+			var ticketType = $(ev.currentTarget).parents('.one_ticket_type_row')[0].getAttribute('data-ticket-type');
+			this.removeTicketToCart(ticketType);
 	}
 });
