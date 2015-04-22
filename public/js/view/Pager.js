@@ -2,11 +2,11 @@
  * @module views/Pager
  */
 app.View.Pager = Backbone.View.extend({
-	activeClass: 'active',
-	isLastProcessPage: 'is_last_process_page',
-	isFirstProcessPage: 'is_first_process_page',
-	maximumTicketCountWithoutScrollBar: 2,
-	events : {
+	activeClass                        : 'active',
+	isLastProcessPage                  : 'is_last_process_page',
+	isFirstProcessPage                 : 'is_first_process_page',
+	maximumTicketCountWithoutScrollBar : 2,
+	events                             : {
 		'click .touch_wrapper' : 'onTouchWrapperClick',
 		'click .back_button'   : 'onBackButtonClick',
 		'click .next_button'   : 'onNextButtonClick'
@@ -15,7 +15,7 @@ app.View.Pager = Backbone.View.extend({
 	/**
 	 *
 	 */
-	initialize: function() {
+	initialize : function() {
 		this._touchWrapper = $('.touch_wrapper');
 		this._purchaseProcessWrapper = $('.purchase_process');
 		this._nextButton = $('.next_button');
@@ -43,7 +43,7 @@ app.View.Pager = Backbone.View.extend({
 	 */
 	onBackButtonClick : function(ev) {
 		ev.preventDefault();
-		if(this._backButton.hasClass(this.activeClass)) {
+		if (this._backButton.hasClass(this.activeClass)) {
 			this._setPrevPage();
 		}
 	},
@@ -53,7 +53,7 @@ app.View.Pager = Backbone.View.extend({
 	 */
 	onNextButtonClick : function(ev) {
 		ev.preventDefault();
-		if(this._nextButton.hasClass(this.activeClass)) {
+		if (this._nextButton.hasClass(this.activeClass)) {
 			this._setNextPage();
 		}
 	},
@@ -61,7 +61,7 @@ app.View.Pager = Backbone.View.extend({
 	/**
 	 *
 	 */
-	_setNextPage: function() {
+	_setNextPage : function() {
 		var activePage = $('.process_page.active'),
 			nextActivePage = activePage.next('.process_page'),
 			nextActiveArrowBox = $('.arrow_box.active').next('.arrow_box');
@@ -75,7 +75,7 @@ app.View.Pager = Backbone.View.extend({
 			this._totalPriceWrapper.addClass('bigger_font_size');
 			app.events.trigger('NEXT-PROCESS-PAGE-LOADED', nextActivePage);
 		}
-		if(nextActivePage.hasClass(this.isLastProcessPage)) {
+		if (nextActivePage.hasClass(this.isLastProcessPage)) {
 			this._disabledNextButton();
 		}
 	},
@@ -83,7 +83,7 @@ app.View.Pager = Backbone.View.extend({
 	/**
 	 *
 	 */
-	_setPrevPage: function() {
+	_setPrevPage : function() {
 		var activePage = $('.process_page.active'),
 			prevActivePage = activePage.prev('.process_page'),
 			prevActiveArrowBox = $('.arrow_box.active').prev('.arrow_box');
@@ -95,10 +95,10 @@ app.View.Pager = Backbone.View.extend({
 			prevActiveArrowBox.addClass(this.activeClass);
 			app.events.trigger('PREV-PROCESS-PAGE-LOADED', prevActivePage);
 		}
-		if(activePage.hasClass(this.isLastProcessPage)) {
+		if (activePage.hasClass(this.isLastProcessPage)) {
 			this._enabledNextButton();
 		}
-		if(prevActivePage.hasClass(this.isFirstProcessPage)) {
+		if (prevActivePage.hasClass(this.isFirstProcessPage)) {
 			this._disabledBackButton();
 			this._disabledNextButton();
 			this._totalPriceWrapper.removeClass('bigger_font_size');
@@ -171,7 +171,7 @@ app.View.Pager = Backbone.View.extend({
 	 *
 	 */
 	onSelectedTicketsTypeCount : function(ticketTypeCount) {
-		if(ticketTypeCount > this.maximumTicketCountWithoutScrollBar) {
+		if (ticketTypeCount > this.maximumTicketCountWithoutScrollBar) {
 			this._summaryPage.addClass('many_tickets');
 		}
 		else {

@@ -20,6 +20,10 @@ body {
 		h5 {
 			font-size: 1.5vw;
 		}
+		var {
+			font-weight: bold;
+			font-style: normal;
+		}
 		.touch_wrapper {
 			display: none;
 			&.active {
@@ -288,6 +292,7 @@ body {
 				}
 				.paying_page {
 					display: none;
+					text-align: center;
 					&.active {
 						display: block;
 					}
@@ -306,9 +311,17 @@ body {
 							cursor: pointer;
 						}
 					}
-					h2 {
-						text-align: center;
+					.paying_inprogress {
+						display: none;
+						&.active {
+							display: block;
+							font-size: 7vw;
+							color: white;
+						}
+					}
+					var {
 						margin: 9vw 0 2vw 0;
+						font-size: 5vw;
 					}
 				}
 			}
@@ -320,12 +333,15 @@ body {
 				&.active {
 					display: block;
 				}
-				h3 {
+				var {
 					text-align: end;
 					font-size: 2vw;
-				}
-				&.summary_page {
-					font-size: 4vw;
+					&.summary_page {
+						font-size: 4vw;
+					}
+					&.paying_page {
+						display: none;
+					}
 				}
 			}
 			footer {

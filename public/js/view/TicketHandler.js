@@ -2,15 +2,27 @@
  * @module views/Pager
  */
 app.View.TicketHandler = Backbone.View.extend({
-	summaryPageClass : 'summary_page',
-	selectPageClass : 'select_page',
-	activeClass      : 'active',
-	initialize       : function() {
-		this._touchWrapper = $('.ticket_box');
-		this._totalPriceText = $('.total_price_wrapper h3');
-		this._oneTicketRow = $('.one_ticket_type_row');
-		this._ticketBoxes = $('.ticket_box');
-		this._ticketsCounters = $('.counter_display');
+
+	summaryPageClass       : 'summary_page',
+	selectPageClass        : 'select_page',
+	payingPageClass        : 'paying_page',
+	ticketBoxClass         : 'ticket_box',
+	totalPriceWrapperClass : 'total_price_wrapper',
+	oneTicketTypeRowClass  : 'one_ticket_type_row',
+	counterDisplayClass    : 'counter_display',
+	payingButtonClass      : 'paying_button',
+	payingInProgressClass  : 'paying_inprogress',
+	activeClass            : 'active',
+	selectedClass          : 'selected',
+
+	initialize : function() {
+		this._totalPriceText = $('.' + this.totalPriceWrapperClass + ' var');
+		this._endPriceText = $('.' + this.payingPageClass + ' var');
+		this._oneTicketRow = $('.' + this.oneTicketTypeRowClass);
+		this._ticketBoxes = $('.' + this.ticketBoxClass);
+		this._ticketsCounters = $('.' + this.counterDisplayClass);
+		this._payingButton = $('.' + this.payingButtonClass);
+		this._payingInProgressLoader = $('.' + this.payingInProgressClass);
 
 		app.events.on('NEXT-PROCESS-PAGE-LOADED', this.onNextProcessPageLoaded, this);
 		app.events.on('PREV-PROCESS-PAGE-LOADED', this.onPrevProcessPageLoaded, this);
@@ -19,7 +31,8 @@ app.View.TicketHandler = Backbone.View.extend({
 	events : {
 		'click .ticket_box'    : 'onTicketClick',
 		'click .add_ticket'    : 'onAddTicketClick',
-		'click .remove_ticket' : 'onRemoveTicketClick'
+		'click .remove_ticket' : 'onRemoveTicketClick',
+		'click .paying_button' : 'onPayingButtonClick'
 	},
 
 	/**
@@ -30,13 +43,20 @@ app.View.TicketHandler = Backbone.View.extend({
 		this.checkTicketStatus(ev);
 	},
 
+	onPayingButtonClick : function(ev) {
+		ev.preventDefault();
+		this._payingButton.hide();
+		this._payingInProgressLoader.addClass(this.activeClass);
+	},
+
 	/**
 	 * Handles click event
 	 */
 	onNextProcessPageLoaded : function(ev) {
 		if (ev.hasClass(this.summaryPageClass)) {
 			this.addSelectedTickets();
-		};
+		}
+		this.setCurrentVisiblePriceProperty(ev);
 	},
 
 	/**
@@ -45,7 +65,18 @@ app.View.TicketHandler = Backbone.View.extend({
 	onPrevProcessPageLoaded : function(ev) {
 		if (ev.hasClass(this.selectPageClass)) {
 			this.resetShoppingCart();
-		};
+		}
+		this.setCurrentVisiblePriceProperty(ev);
+	},
+
+	setCurrentVisiblePriceProperty : function(ev) {
+		this._totalPriceText.removeClass();
+		if (ev.hasClass(this.summaryPageClass)) {
+			this._totalPriceText.addClass(this.summaryPageClass);
+		}
+		if (ev.hasClass(this.payingPageClass)) {
+			this._totalPriceText.addClass(this.payingPageClass);
+		}
 	},
 
 	resetShoppingCart : function() {
@@ -59,11 +90,12 @@ app.View.TicketHandler = Backbone.View.extend({
 	 *
 	 */
 	addSelectedTickets : function() {
-		var selectedTickets = this.model.getSelectedTickets();
-		this._oneTicketRow.removeClass('active');
+		var self = this,
+			selectedTickets = this.model.getSelectedTickets();
+		this._oneTicketRow.removeClass(this.activeClass);
 		this._oneTicketRow.each(function(index) {
 			if (_.indexOf(selectedTickets, $(this).attr('data-ticket-type')) !== -1) {
-				$(this).addClass('active');
+				$(this).addClass(self.activeClass);
 			}
 		});
 		app.events.trigger('SELECTED-TICKETS-TYPE-COUNT', selectedTickets.length);
@@ -89,7 +121,9 @@ app.View.TicketHandler = Backbone.View.extend({
 	 *
 	 */
 	_refreshTotalPrice : function() {
-		this._totalPriceText.html(this.model.getTotalPrice() + ' ' + 'HUF');
+		var newValue = this.model.getTotalPrice() + ' ' + 'HUF';
+		this._totalPriceText.html(newValue);
+		this._endPriceText.html(newValue);
 	},
 
 	/**
@@ -130,18 +164,17 @@ app.View.TicketHandler = Backbone.View.extend({
 
 		this.addTicketToCart(ticketType);
 		this.refreshTicketCounter(ticketType, counterEl);
-		this.refreshTicketPrice(ticketType,ticketTypePriceEl);
+		this.refreshTicketPrice(ticketType, ticketTypePriceEl);
 	},
 
 	refreshTicketCounter : function(ticketType, counterEl) {
-		console.info('CART: ', this.model.attributes.shoppingCart)
 		counterEl.html(this.model.attributes.shoppingCart[ticketType] || '0');
 	},
 
 	refreshTicketPrice : function(ticketType, ticketTypePriceEl) {
 		var typePrice = parseInt(this.model.attributes.ticketTypes[ticketType]),
 			ticketCount = parseInt(this.model.attributes.shoppingCart[ticketType]),
-		price = typePrice * ticketCount ? typePrice * ticketCount : 0;
+			price = typePrice * ticketCount ? typePrice * ticketCount : 0;
 		ticketTypePriceEl.html(price + ' HUF');
 	},
 
@@ -158,6 +191,6 @@ app.View.TicketHandler = Backbone.View.extend({
 
 		this.removeTicketToCart(ticketType);
 		this.refreshTicketCounter(ticketType, counterEl);
-		this.refreshTicketPrice(ticketType,ticketTypePriceEl);
+		this.refreshTicketPrice(ticketType, ticketTypePriceEl);
 	}
 });

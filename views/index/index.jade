@@ -48,12 +48,13 @@ block content
 					+ticket_selection('24-hour group', 'Budapest-travelcard', '3300', ' HUF', "24h_bp_group")
 					+ticket_selection('Seven-day', 'Budapest-travelcard', '4950', ' HUF', "7day", '7')
 				.paying_page.process_page.is_last_process_page
-					h2 End Price
+					var End Price
 					.paying_button
 						i.fa.fa-credit-card
 						span PAY
+					i.fa.fa-spinner.fa-pulse.paying_inprogress
 			.total_price_wrapper.active
-				h3 Total Price
+				var Total Price
 			footer
 				.footer_wrapper
 					.back_button.navigation_button
