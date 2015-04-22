@@ -13,7 +13,7 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Init
 	 */
 	initialize : function() {
 		this._touchWrapper = $('.touch_wrapper');
@@ -31,15 +31,19 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 * Handles click event
+	 * Hanldes click on main page on touch wrapper
+	 * @public
+	 * @return void
 	 */
 	onTouchWrapperClick : function() {
-		this.hideTouchWrapper();
-		this.showPurchaseProcess();
+		this._touchWrapper.removeClass(this.activeClass);
+		this._purchaseProcessWrapper.addClass(this.activeClass);
 	},
 
 	/**
-	 * Handles click event
+	 * Handles click event on back button
+	 * @public
+	 * @return void
 	 */
 	onBackButtonClick : function(ev) {
 		ev.preventDefault();
@@ -49,7 +53,9 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 * Handles click event
+	 * Handles click event on next button
+	 * @public
+	 * @return void
 	 */
 	onNextButtonClick : function(ev) {
 		ev.preventDefault();
@@ -59,7 +65,9 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Sets next process page
+	 * @private
+	 * @return void
 	 */
 	_setNextPage : function() {
 		var activePage = $('.process_page.active'),
@@ -81,7 +89,9 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Sets previous process page
+	 * @private
+	 * @return void
 	 */
 	_setPrevPage : function() {
 		var activePage = $('.process_page.active'),
@@ -106,69 +116,9 @@ app.View.Pager = Backbone.View.extend({
 	},
 
 	/**
-	 * Show Purchase Process Wrapper
-	 */
-	showPurchaseProcess : function() {
-		this._purchaseProcessWrapper.addClass(this.activeClass);
-	},
-
-	/**
-	 * Handles click event
-	 */
-	hideTouchWrapper : function() {
-		this._touchWrapper.removeClass(this.activeClass);
-	},
-	/**
-	 * Handles click event
-	 */
-	showTouchWrapper : function() {
-		this._touchWrapper.addClass(this.activeClass);
-	},
-
-	/**
-	 *
-	 */
-	_enabledNextButton : function() {
-		this._nextButton.addClass(this.activeClass);
-	},
-
-	/**
-	 *
-	 */
-	_disabledNextButton : function() {
-		this._nextButton.removeClass(this.activeClass);
-	},
-
-	/**
-	 *
-	 */
-	_enabledBackButton : function() {
-		this._backButton.addClass(this.activeClass);
-	},
-
-	/**
-	 *
-	 */
-	_disabledBackButton : function() {
-		this._backButton.removeClass(this.activeClass);
-	},
-
-	/**
-	 *
-	 */
-	onShoppingCartIsNotEmpty : function() {
-		this._enabledNextButton();
-	},
-
-	/**
-	 *
-	 */
-	onShoppingCartIsEmpty : function() {
-		this._disabledNextButton();
-	},
-
-	/**
-	 *
+	 * Handles 2 or more ticket design
+	 * @public
+	 * @return void
 	 */
 	onSelectedTicketsTypeCount : function(ticketTypeCount) {
 		if (ticketTypeCount > this.maximumTicketCountWithoutScrollBar) {
@@ -177,5 +127,59 @@ app.View.Pager = Backbone.View.extend({
 		else {
 			this._summaryPage.removeClass('many_tickets');
 		}
+	},
+
+	/**
+	 * Enable next button
+	 * @private
+	 * @return void
+	 */
+	_enabledNextButton : function() {
+		this._nextButton.addClass(this.activeClass);
+	},
+
+	/**
+	 * Disable next button
+	 * @private
+	 * @return void
+	 */
+	_disabledNextButton : function() {
+		this._nextButton.removeClass(this.activeClass);
+	},
+
+	/**
+	 * Enable back button
+	 * @private
+	 * @return void
+	 */
+	_enabledBackButton : function() {
+		this._backButton.addClass(this.activeClass);
+	},
+
+	/**
+	 * Disable back button
+	 * @private
+	 * @return void
+	 */
+	_disabledBackButton : function() {
+		this._backButton.removeClass(this.activeClass);
+	},
+
+	/**
+	 * Handles when the cart is not empty
+	 * @public
+	 * @return void
+	 */
+	onShoppingCartIsNotEmpty : function() {
+		this._enabledNextButton();
+	},
+
+	/**
+	 *Handles when the cart is empty
+	 * @public
+	 * @return void
+	 */
+	onShoppingCartIsEmpty : function() {
+		this._disabledNextButton();
 	}
 });

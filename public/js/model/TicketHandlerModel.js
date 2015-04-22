@@ -2,6 +2,7 @@
  * @module models/TicketHandlerModel
  */
 app.Model.TicketHandlerModel = Backbone.Model.extend({
+	_currentTotalPrice : 0,
 	defaults           : {
 		'shoppingCart' : {},
 		'ticketTypes'  : {
@@ -11,10 +12,11 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 			'7day'         : '4950'
 		}
 	},
-	_currentTotalPrice : 0,
 
 	/**
-	 *
+	 * Adds one ticket to the cart
+	 * @public
+	 * @return void
 	 */
 	addTicketToCart : function(ticketType) {
 		var ticketCount = this.attributes.shoppingCart[ticketType],
@@ -23,9 +25,11 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 	},
 
 	/**
-	 *
+	 * Removes one ticket to the cart
+	 * @public
+	 * @return void
 	 */
-	removeTicketToCart : function(ticketType) {
+	removeTicketFromCart : function(ticketType) {
 		var ticketCount = this.attributes.shoppingCart[ticketType],
 			newCount = ticketCount ? parseInt(ticketCount) - 1 : 0;
 		newCount !== 0 ?
@@ -34,7 +38,9 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 	},
 
 	/**
-	 *
+	 * Gets the total price of tickets
+	 * @public
+	 * @return {Number} _currentTotalPrice
 	 */
 	getTotalPrice : function() {
 		var _currentTotalPrice = 0;
@@ -45,12 +51,19 @@ app.Model.TicketHandlerModel = Backbone.Model.extend({
 	},
 
 	/**
-	 *
+	 * Gets the keys of the selected tickets
+	 * @public
+	 * @return {String} selectedTickets    the keys of the selected tickets
 	 */
 	getSelectedTickets : function() {
 		return _.keys(this.attributes.shoppingCart);
 	},
 
+	/**
+	 * Resets the shopping car's content
+	 * @public
+	 * @return void
+	 */
 	resetShoppingCart : function() {
 		this.attributes.shoppingCart = {};
 	}

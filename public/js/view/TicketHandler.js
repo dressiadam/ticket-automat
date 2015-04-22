@@ -2,7 +2,6 @@
  * @module views/Pager
  */
 app.View.TicketHandler = Backbone.View.extend({
-
 	summaryPageClass       : 'summary_page',
 	selectPageClass        : 'select_page',
 	payingPageClass        : 'paying_page',
@@ -15,6 +14,16 @@ app.View.TicketHandler = Backbone.View.extend({
 	activeClass            : 'active',
 	selectedClass          : 'selected',
 
+	events : {
+		'click .ticket_box'    : 'onTicketClick',
+		'click .add_ticket'    : 'onAddTicketClick',
+		'click .remove_ticket' : 'onRemoveTicketClick',
+		'click .paying_button' : 'onPayingButtonClick'
+	},
+
+	/**
+	 * Init
+	 */
 	initialize : function() {
 		this._totalPriceText = $('.' + this.totalPriceWrapperClass + ' var');
 		this._endPriceText = $('.' + this.payingPageClass + ' var');
@@ -28,21 +37,21 @@ app.View.TicketHandler = Backbone.View.extend({
 		app.events.on('PREV-PROCESS-PAGE-LOADED', this.onPrevProcessPageLoaded, this);
 	},
 
-	events : {
-		'click .ticket_box'    : 'onTicketClick',
-		'click .add_ticket'    : 'onAddTicketClick',
-		'click .remove_ticket' : 'onRemoveTicketClick',
-		'click .paying_button' : 'onPayingButtonClick'
-	},
-
 	/**
-	 * Handles click event
+	 * Handles click event on a ticket
+	 * @public
+	 * @return void
 	 */
 	onTicketClick : function(ev) {
 		ev.preventDefault();
 		this.checkTicketStatus(ev);
 	},
 
+	/**
+	 * 
+	 * @public
+	 * @return void
+	 */
 	onPayingButtonClick : function(ev) {
 		ev.preventDefault();
 		this._payingButton.hide();
@@ -50,7 +59,9 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 * Handles click event
+	 * Handles when the next page is loaded
+	 * @public
+	 * @return void
 	 */
 	onNextProcessPageLoaded : function(ev) {
 		if (ev.hasClass(this.summaryPageClass)) {
@@ -60,7 +71,9 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 * Handles click event
+	 * Handles when the previous page is loaded
+	 * @public
+	 * @return void
 	 */
 	onPrevProcessPageLoaded : function(ev) {
 		if (ev.hasClass(this.selectPageClass)) {
@@ -69,6 +82,11 @@ app.View.TicketHandler = Backbone.View.extend({
 		this.setCurrentVisiblePriceProperty(ev);
 	},
 
+	/**
+	 * Sets the different designs of the price holder
+	 * @public
+	 * @return void
+	 */
 	setCurrentVisiblePriceProperty : function(ev) {
 		this._totalPriceText.removeClass();
 		if (ev.hasClass(this.summaryPageClass)) {
@@ -79,15 +97,22 @@ app.View.TicketHandler = Backbone.View.extend({
 		}
 	},
 
+	/**
+	 * Reset shopping cart
+	 * @public
+	 * @return void
+	 */
 	resetShoppingCart : function() {
-		this._ticketBoxes.removeClass('selected');
+		this._ticketBoxes.removeClass(this.selectedClass);
 		this._ticketsCounters.html('1');
 		this.model.resetShoppingCart();
 		this._refreshTotalPrice();
 	},
 
 	/**
-	 *
+	 * Add selected ticket to summary page(in this case 'show' instead of 'add')
+	 * @public
+	 * @return void
 	 */
 	addSelectedTickets : function() {
 		var self = this,
@@ -102,23 +127,27 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Checks the statuses of tickets
+	 * @public
+	 * @return void
 	 */
 	checkTicketStatus : function(ev) {
 		var currentTarget = $(ev.currentTarget),
 			ticketType = currentTarget.attr('data-ticket-type');
-		if (!currentTarget.hasClass('selected')) {
+		if (!currentTarget.hasClass(this.selectedClass)) {
 			this.addTicketToCart(ticketType);
-			currentTarget.addClass('selected');
+			currentTarget.addClass(this.selectedClass);
 		}
 		else {
-			this.removeTicketToCart(ticketType);
-			currentTarget.removeClass('selected');
+			this.removeTicketFromCart(ticketType);
+			currentTarget.removeClass(this.selectedClass);
 		}
 	},
 
 	/**
-	 *
+	 * REfresh total price
+	 * @public
+	 * @return void
 	 */
 	_refreshTotalPrice : function() {
 		var newValue = this.model.getTotalPrice() + ' ' + 'HUF';
@@ -127,15 +156,20 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Checks the content of cart (empty or not empty)
+	 * @public
+	 * @return void
 	 */
 	_checkCartIsEmpty : function() {
 		if (this.model.getTotalPrice() === 0) {
 			app.events.trigger('SHOPPING-CART-IS-EMPTY');
 		}
 	},
+
 	/**
-	 *
+	 * Add ticket ot the cart
+	 * @public
+	 * @return void
 	 */
 	addTicketToCart   : function(ticketType) {
 		this.model.addTicketToCart(ticketType);
@@ -144,15 +178,41 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 *
+	 * Remove ticket from the cart
+	 * @public
+	 * @return void
 	 */
-	removeTicketToCart : function(ticketType) {
-		this.model.removeTicketToCart(ticketType);
+	removeTicketFromCart : function(ticketType) {
+		this.model.removeTicketFromCart(ticketType);
 		this._refreshTotalPrice();
 		this._checkCartIsEmpty();
 	},
+
 	/**
-	 * Handles click event
+	 * Refresh the ticket counter
+	 * @public
+	 * @return void
+	 */
+	refreshTicketCounter : function(ticketType, counterEl) {
+		counterEl.html(this.model.attributes.shoppingCart[ticketType] || '0');
+	},
+
+	/**
+	 * Refresh ticket price
+	 * @public
+	 * @return void
+	 */
+	refreshTicketPrice : function(ticketType, ticketTypePriceEl) {
+		var typePrice = parseInt(this.model.attributes.ticketTypes[ticketType]),
+			ticketCount = parseInt(this.model.attributes.shoppingCart[ticketType]),
+			price = typePrice * ticketCount ? typePrice * ticketCount : 0;
+		ticketTypePriceEl.html(price + ' HUF');
+	},
+
+	/**
+	 * Handles click on add ticket button
+	 * @public
+	 * @return void
 	 */
 	onAddTicketClick   : function(ev) {
 		ev.preventDefault();
@@ -167,19 +227,10 @@ app.View.TicketHandler = Backbone.View.extend({
 		this.refreshTicketPrice(ticketType, ticketTypePriceEl);
 	},
 
-	refreshTicketCounter : function(ticketType, counterEl) {
-		counterEl.html(this.model.attributes.shoppingCart[ticketType] || '0');
-	},
-
-	refreshTicketPrice : function(ticketType, ticketTypePriceEl) {
-		var typePrice = parseInt(this.model.attributes.ticketTypes[ticketType]),
-			ticketCount = parseInt(this.model.attributes.shoppingCart[ticketType]),
-			price = typePrice * ticketCount ? typePrice * ticketCount : 0;
-		ticketTypePriceEl.html(price + ' HUF');
-	},
-
 	/**
-	 * Handles click event
+	 * Handles click on remove ticket button
+	 * @public
+	 * @return void
 	 */
 	onRemoveTicketClick : function(ev) {
 		ev.preventDefault();
@@ -189,7 +240,7 @@ app.View.TicketHandler = Backbone.View.extend({
 			counterEl = currentTicketRowEl.find('.counter_display'),
 			ticketTypePriceEl = currentTicketRowEl.find('.ticket_type_total_price');
 
-		this.removeTicketToCart(ticketType);
+		this.removeTicketFromCart(ticketType);
 		this.refreshTicketCounter(ticketType, counterEl);
 		this.refreshTicketPrice(ticketType, ticketTypePriceEl);
 	}

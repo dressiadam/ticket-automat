@@ -1,6 +1,24 @@
+$white: #fff;
+$black: #000;
 $main_page_color: #412DA9;
 $main_page_background: #BFE0F1;
 $site_border_color: #92A2B9;
+$purchase_process_background: #C7C9C8;
+$arrow_background: #81A7BD;
+$arrow_color: #C0D3DE;
+$arrow_border_color: #1873AC;
+$ticket_price_color: #CDD6FA;
+$ticket_box_background: #282F75;
+$ticket_type_1_color: #619240;
+$ticket_type_2_color: #C6710D;
+$ticket_type_3_color: #158AB5;
+$select_page_background: #657183;
+$counters_button_background: #9E9EA2;
+$paying_button_background: #7CB252;
+$navigation_button_background: #9899A6;
+$navigation_button_active_background: #2A2857;
+$navigation_button_color: #DFE8F2;
+
 
 body {
 	.container {
@@ -64,7 +82,7 @@ body {
 			width: 100%;
 			height: 100%;
 			border: 15px solid $site_border_color;
-			background: #C7C9C8;
+			background: $purchase_process_background;
 			display: none;
 			&.active {
 				display: table-cell;
@@ -78,8 +96,8 @@ body {
 						height: 5vw;
 						position: relative;
 						display: inline-block;
-						background: #81A7BD;
-						color: #C0D3DE;
+						background: $arrow_background;
+						color: $arrow_color;
 						margin: 0 0.8vw;
 						span {
 							margin: 0;
@@ -87,7 +105,7 @@ body {
 							height: 0;
 							border-top: 2.5vw solid transparent;
 							border-bottom: 2.5vw solid transparent;
-							border-left: 2.5vw solid #C7C9C8;
+							border-left: 2.5vw solid $purchase_process_background;
 							position: absolute;
 							top: 0;
 							left: 0;
@@ -98,9 +116,9 @@ body {
 						}
 						&.active {
 							&:after {
-								border-left-color: #1873AC;
+								border-left-color: $arrow_border_color;
 							}
-							background: #1873AC;
+							background: $arrow_border_color;
 							color: white;
 						}
 						&:after, &:before {
@@ -114,7 +132,7 @@ body {
 							pointer-events: none;
 						}
 						&:after {
-							border-left-color: #81A7BD;
+							border-left-color: $arrow_background;
 							border-width: 2.5vw;
 							margin-top: -2.45vw;
 							z-index: 1;
@@ -142,7 +160,7 @@ body {
 					left: 0.5vw;
 				}
 				.ticket_price {
-					color: #CDD6FA;
+					color: $ticket_price_color;
 					position: absolute;
 					bottom: 1vw;
 					right: 1vw;
@@ -153,7 +171,7 @@ body {
 					height: 11vw;
 					position: relative;
 					display: inline-block;
-					background: #282F75;
+					background: $ticket_box_background;
 					margin: 1vw 0 0 3vw;
 					&.selected {
 						-moz-box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 10px hsl(0, 0%, 90%);
@@ -171,6 +189,10 @@ body {
 							left: 1.5vw;
 							text-align: center;
 							font: 3vw/8vw 'Arial',sans-serif;
+							.fa-users {
+								font-size: 5vw;
+								line-height: 8vw;
+							}
 						}
 						display: inline-block;
 						width: 11vw;
@@ -187,33 +209,33 @@ body {
 					}
 					&[data-ticket-type="24h_bp"] {
 						.ticket_sign {
-							background: #619240;
+							background: $ticket_type_1_color;
 							.circle {
-								color: #619240;
+								color: $ticket_type_1_color;
 							}
 						}
 					}
 					&[data-ticket-type="5_30_bp"] {
 						.ticket_sign {
-							background: #619240;
+							background: $ticket_type_1_color;
 							.circle {
-								color: #619240;
+								color: $ticket_type_1_color;
 							}
 						}
 					}
 					&[data-ticket-type="24h_bp_group"] {
 						.ticket_sign {
-							background: #C6710D;
+							background: $ticket_type_2_color;
 							.circle {
-								color: #C6710D;
+								color: $ticket_type_2_color;
 							}
 						}
 					}
 					&[data-ticket-type="7day"] {
 						.ticket_sign {
-							background: #158AB5;
+							background: $ticket_type_3_color;
 							.circle {
-								color: #158AB5;
+								color: $ticket_type_3_color;
 							}
 						}
 					}
@@ -222,7 +244,7 @@ body {
 					display: none;
 					h2 {
 						margin: 2vw 0 0 3vw;
-						color: #657183;
+						color: $select_page_background;
 					}
 					&.active {
 						display: block;
@@ -254,20 +276,20 @@ body {
 							.counter_buttons {
 								width: 5.5vw;
 								height: 5.5vw;
-								background: #9E9EA2;
+								background: $counters_button_background;
 								float: left;
 								font: 3vw/5.5vw 'Arial',sans-serif;
-								color: #fff;
+								color: $white;
 								text-align: center;
-								-moz-box-shadow: inset -1px -2px 5px #000, inset 1px 2px 5px #fff;
-								-webkit-box-shadow: inset -1px -2px 5px #000, inset 1px 2px 5px #fff;
-								box-shadow: inset -1px -2px 5px #000, inset 1px 2px 5px #fff;
+								-moz-box-shadow: inset -1px -2px 5px $black, inset 1px 2px 5px $white;
+								-webkit-box-shadow: inset -1px -2px 5px $black, inset 1px 2px 5px $white;
+								box-shadow: inset -1px -2px 5px $black, inset 1px 2px 5px $white;
 
 								&:hover {
 									cursor: pointer;
-									-moz-box-shadow: inset -1px -2px 5px #fff, inset 1px 2px 5px #000;
-									-webkit-box-shadow: inset -1px -2px 5px #fff, inset 1px 2px 5px #000;
-									box-shadow: inset -1px -2px 5px #fff, inset 1px 2px 5px #000;
+									-moz-box-shadow: inset -1px -2px 5px $white, inset 1px 2px 5px $black;
+									-webkit-box-shadow: inset -1px -2px 5px $white, inset 1px 2px 5px $black;
+									box-shadow: inset -1px -2px 5px $white, inset 1px 2px 5px $black;
 								}
 							}
 							.counter_display {
@@ -299,7 +321,7 @@ body {
 					.paying_button {
 						margin: auto;
 						width: 17vw;
-						background: #7CB252;
+						background: $paying_button_background;
 						color: white;
 						font: 3vw 'Arial',bold;
 						padding: 0 0.6vw;
@@ -358,16 +380,16 @@ body {
 						margin: 0 0 0 2vw;
 						height: 3.5vw;
 						width: 20vw;
-						background: #9899A6;
-						color: #DFE8F2;
+						background: $navigation_button_background;
+						color: $navigation_button_color;
 						font: 1.7vw/3.5vw 'Arial',sans-serif;
 						padding: 0 0.6vw;
 						span {
 							margin: 0.5vw;
 						}
 						&.active {
-							background: #2A2857;
-							color: #fff;
+							background: $navigation_button_active_background;
+							color: $white;
 						}
 						&:hover {
 							cursor: pointer;
