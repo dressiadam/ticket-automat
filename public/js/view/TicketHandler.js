@@ -13,6 +13,8 @@ app.View.TicketHandler = Backbone.View.extend({
 	payingInProgressClass  : 'paying_inprogress',
 	activeClass            : 'active',
 	selectedClass          : 'selected',
+	ticketTypeDataAttr     : 'data-ticket-type',
+	ticketTypeTotalClass   : 'ticket_type_total_price',
 
 	events : {
 		'click .ticket_box'    : 'onTicketClick',
@@ -44,11 +46,22 @@ app.View.TicketHandler = Backbone.View.extend({
 	 */
 	onTicketClick : function(ev) {
 		ev.preventDefault();
-		this.checkTicketStatus(ev);
+		if(this.isSelectPageSelected()) {
+			this.checkTicketStatus(ev);
+		}
 	},
 
 	/**
-	 * 
+	 * Gets true if the current activa page is select page
+	 * @public
+	 * @return {Boolean}
+	 */
+	isSelectPageSelected : function() {
+		return $('.process_page.active').hasClass('select_page');
+	},
+
+	/**
+	 * Handles the click event on paying button
 	 * @public
 	 * @return void
 	 */
@@ -145,7 +158,7 @@ app.View.TicketHandler = Backbone.View.extend({
 	},
 
 	/**
-	 * REfresh total price
+	 * Refresh total price
 	 * @public
 	 * @return void
 	 */
@@ -171,7 +184,7 @@ app.View.TicketHandler = Backbone.View.extend({
 	 * @public
 	 * @return void
 	 */
-	addTicketToCart   : function(ticketType) {
+	addTicketToCart : function(ticketType) {
 		this.model.addTicketToCart(ticketType);
 		this._refreshTotalPrice();
 		app.events.trigger('SHOPPING-CART-IS-NOT-EMPTY');
@@ -214,7 +227,7 @@ app.View.TicketHandler = Backbone.View.extend({
 	 * @public
 	 * @return void
 	 */
-	onAddTicketClick   : function(ev) {
+	onAddTicketClick : function(ev) {
 		ev.preventDefault();
 		var ticketRowEl = $(ev.currentTarget).parents('.one_ticket_type_row')[0],
 			ticketType = ticketRowEl.getAttribute('data-ticket-type'),

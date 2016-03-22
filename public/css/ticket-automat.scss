@@ -19,7 +19,6 @@ $navigation_button_background: #9899A6;
 $navigation_button_active_background: #2A2857;
 $navigation_button_color: #DFE8F2;
 
-
 body {
 	.container {
 		display: table;
@@ -119,7 +118,7 @@ body {
 								border-left-color: $arrow_border_color;
 							}
 							background: $arrow_border_color;
-							color: white;
+							color: $white;
 						}
 						&:after, &:before {
 							left: 100%;
@@ -181,7 +180,7 @@ body {
 					.ticket_sign {
 						.circle {
 							border-radius: 50%;
-							background: white;
+							background: $white;
 							width: 8vw;
 							height: 8vw;
 							position: absolute;
@@ -293,7 +292,7 @@ body {
 								}
 							}
 							.counter_display {
-								background: white;
+								background: $white;
 								width: 7.5vw;
 								height: 5.5vw;
 								float: left;
@@ -322,12 +321,12 @@ body {
 						margin: auto;
 						width: 17vw;
 						background: $paying_button_background;
-						color: white;
+						color: $white;
 						font: 3vw 'Arial',bold;
 						padding: 0 0.6vw;
 						text-align: center;
 						span {
-							margin: 0px 0 0 4vw;
+							margin: 0 0 0 4vw;
 						}
 						&:hover {
 							cursor: pointer;
@@ -338,7 +337,7 @@ body {
 						&.active {
 							display: block;
 							font-size: 7vw;
-							color: white;
+							color: $white;
 						}
 					}
 					var {
